@@ -4,7 +4,7 @@
 import numpy as np
 import itertools
 import psycopg2
-from config import PG_CONN_FASTTRACK_WRITE
+from config import PG_CONN_WRITE
 from params import THRESHOLD_FUEL_DIFF, THRESHOLD_SLOPE
 import common as cm
 from main import logger
@@ -327,10 +327,10 @@ def splits_to_events(vehicle_id, vehicle_data, lines, window):
 def segment_dump_db(r, vehicle_id, vehicle_data):
     try:
         conn = psycopg2.connect(
-            host=PG_CONN_FASTTRACK_WRITE['host'],
-            port=PG_CONN_FASTTRACK_WRITE['port'],
-            dbname=PG_CONN_FASTTRACK_WRITE['database'],
-            user=PG_CONN_FASTTRACK_WRITE['user']
+            host=PG_CONN_WRITE['host'],
+            port=PG_CONN_WRITE['port'],
+            dbname=PG_CONN_WRITE['database'],
+            user=PG_CONN_WRITE['user']
         )
         cur = conn.cursor()
         for segment in r.segments_:
