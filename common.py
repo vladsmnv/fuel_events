@@ -1,7 +1,7 @@
 #-*- coding: utf-8 -*-
 
 
-from config import PG_CONN_FASTTRACK_WRITE
+from config import PG_CONN_WRITE
 import psycopg2
 from datetime import datetime, timezone
 import numpy as np
@@ -84,10 +84,10 @@ class FuelEvent:
     def dump_db(self, is_online):
         try:
             conn = psycopg2.connect(
-                host=PG_CONN_FASTTRACK_WRITE['host'],
-                port=PG_CONN_FASTTRACK_WRITE['port'],
-                dbname=PG_CONN_FASTTRACK_WRITE['database'],
-                user=PG_CONN_FASTTRACK_WRITE['user']
+                host=PG_CONN_WRITE['host'],
+                port=PG_CONN_WRITE['port'],
+                dbname=PG_CONN_WRITE['database'],
+                user=PG_CONN_WRITE['user']
             )
             cur = conn.cursor()
 
