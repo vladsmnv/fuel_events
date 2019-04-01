@@ -6,7 +6,7 @@ import pandas as pd
 import logging
 from datetime import datetime
 import psql_read as p
-from config import PG_CONN_FASTTRACK, PG_CONN_VTS
+from config import PG_CONN_1, PG_CONN_2
 from params import WINDOW
 import core
 import sys
@@ -34,7 +34,7 @@ def load_day_data(calc_date):
         from 
             public.track_p{:%Y_%m_%d} t
     """.format(calc_date)
-    track = p.psql_read(sql, PG_CONN_FASTTRACK)
+    track = p.psql_read(sql, PG_CONN_1)
     track.sort_values(by=['vehicle_id', 'time_stamp'], inplace=True)
     track.drop_duplicates(['vehicle_id', 'time_stamp'], inplace=True)
     track.set_index(['vehicle_id', 'time_stamp'], inplace=True)
@@ -49,7 +49,7 @@ def load_day_data(calc_date):
                 public.sensor_value_p{:%Y_%m_%d} t
             where value > 0
         """.format(calc_date)
-    sensor_value = p.psql_read(sql, PG_CONN_FASTTRACK)
+    sensor_value = p.psql_read(sql, PG_CONN_1)
     sensor_value.sort_values(by=['vehicle_id', 'time_stamp'], inplace=True)
 
     sql = """
@@ -58,7 +58,7 @@ def load_day_data(calc_date):
         from public.sensor t
         where sensor_type_id = 2
     """
-    fuel_sensors = p.psql_read(sql, PG_CONN_VTS)
+    fuel_sensors = p.psql_read(sql, PG_CONN_2)
 
     sensor_value.drop(sensor_value.index[~sensor_value.sensor_id.isin(fuel_sensors.sensor_id)], inplace=True)
     sensor_value.drop_duplicates(['vehicle_id', 'time_stamp'], inplace=True)
